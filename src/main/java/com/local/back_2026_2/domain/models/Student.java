@@ -3,19 +3,20 @@ package com.local.back_2026_2.domain.models;
 import java.time.LocalDate;
 
 public class Student {
+
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String firstNmae;
+    private String lasName;
     private String email;
     private LocalDate birthDate;
 
     public Student() {
     }
 
-    public Student(Long id, String firstName, String lastName, String email, LocalDate birthDate) {
+    public Student(Long id, String firstNmae, String lasName, String email, LocalDate birthDate) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstNmae = firstNmae;
+        this.lasName = lasName;
         this.email = email;
         this.birthDate = birthDate;
     }
@@ -28,20 +29,20 @@ public class Student {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstNmae() {
+        return firstNmae;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstNmae(String firstNmae) {
+        this.firstNmae = firstNmae;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLasName() {
+        return lasName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLasName(String lasName) {
+        this.lasName = lasName;
     }
 
     public String getEmail() {
@@ -64,10 +65,12 @@ public class Student {
     public String toString() {
         return "Student{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstNmae='" + firstNmae + '\'' +
+                ", lasName='" + lasName + '\'' +
                 ", email='" + email + '\'' +
                 ", birthDate=" + birthDate +
                 '}';
     }
 }
+
+
