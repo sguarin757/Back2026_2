@@ -1,10 +1,54 @@
 package com.local.back_2026_2.domain.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+@Entity
+@Table(name = "course")
 public class Course {
+
+    @Id
+    @NotNull
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
     private Long id;
+
+    @NotBlank
+    @Column(
+            nullable = false,
+            unique = true,
+            length = 50
+    )
     private String code;
+
+    @NotBlank
+    @Column(
+            nullable = false,
+            length = 100
+    )
     private String name;
+
+    @NotBlank
+    @Column(
+            nullable = false,
+            length = 255
+    )
     private String description;
+
+    @NotNull
+    @Positive
+    @Column(
+            name = "max_capacity",
+            nullable = false
+    )
     private Integer maxCapacity;
 
     public Course() {

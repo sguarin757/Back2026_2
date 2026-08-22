@@ -1,3 +1,17 @@
 spring:
   application:
     name: Back_2026_2
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/gestion_academica ?useSSL=false&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieve=True
+    username: root
+    password: 1040871640
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
