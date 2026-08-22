@@ -99,6 +99,23 @@ class StudentServicesTest {
         verify(studentRepository, never()).update(student);
     }
 
+    @Test
+    void deleteByIdShouldFailWhenIdIsInvalid() {
+        assertThrows(BussinesException.class, () -> studentServices.deleteById(0L));
+        verify(studentRepository, never()).existsByStudentId(0L);
+        verify(studentRepository, never()).deleteById(0L);
+    }
+
+    @Test
+    void updateShouldFailWhenStudentIdIsMissing() {
+        Student student = buildStudent();
+        student.setId(null);
+
+        assertThrows(BussinesException.class, () -> studentServices.update(student));
+        verify(studentRepository, never()).existsByStudentId(null);
+        verify(studentRepository, never()).update(student);
+    }
+
     private Student buildStudent() {
         return new Student(
                 1L,

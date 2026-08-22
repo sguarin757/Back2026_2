@@ -15,7 +15,6 @@ import jakarta.validation.constraints.Positive;
 public class Course {
 
     @Id
-    @NotNull
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )

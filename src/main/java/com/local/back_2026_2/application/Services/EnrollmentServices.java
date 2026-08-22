@@ -7,18 +7,21 @@ import com.local.back_2026_2.domain.models.Enrollment;
 import com.local.back_2026_2.domain.models.EnrollmentStatus;
 import com.local.back_2026_2.domain.models.Student;
 import com.local.back_2026_2.domain.repository.EnrollmentRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EnrollmentServices implements EnrollmentRepository {
 
-    private final EnrollmentRepository enrollmentRepository;
+private final EnrollmentRepository enrollmentRepository;
 
-    public EnrollmentServices(EnrollmentRepository enrollmentRepository) {
-        this.enrollmentRepository = enrollmentRepository;
-    }
+public EnrollmentServices(@Qualifier("enrollmentRepositoryAdapter") EnrollmentRepository enrollmentRepository) {
+    this.enrollmentRepository = enrollmentRepository;
+}
 
     @Override
     public List<Enrollment> findall() {

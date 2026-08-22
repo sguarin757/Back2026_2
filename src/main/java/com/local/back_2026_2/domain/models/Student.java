@@ -1,5 +1,6 @@
 package com.local.back_2026_2.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -16,7 +18,6 @@ import java.time.LocalDate;
 public class Student {
 
     @Id
-    @NotBlank
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
@@ -47,7 +48,7 @@ public class Student {
     )
     private String email;
 
-    @NotBlank
+    @NotNull
     @Column(
             name = "birth_date",
             nullable = false
@@ -73,20 +74,40 @@ public class Student {
         this.id = id;
     }
 
+    @JsonIgnore
     public String getFirstNmae() {
         return firstNmae;
     }
 
+    @JsonIgnore
     public void setFirstNmae(String firstNmae) {
         this.firstNmae = firstNmae;
     }
 
+    public String getFirstName() {
+        return firstNmae;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstNmae = firstName;
+    }
+
+    @JsonIgnore
     public String getLasName() {
         return lastName;
     }
 
+    @JsonIgnore
     public void setLasName(String lasName) {
         this.lastName = lasName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -116,4 +137,3 @@ public class Student {
                 '}';
     }
 }
-

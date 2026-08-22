@@ -4,17 +4,20 @@ import com.local.back_2026_2.application.Exceptions.BussinesException;
 import com.local.back_2026_2.application.Exceptions.CourseNotFoundException;
 import com.local.back_2026_2.domain.models.Course;
 import com.local.back_2026_2.domain.repository.CourseRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CourseServices implements CourseRepository {
 
-    private final CourseRepository courseRepository;
+private final CourseRepository courseRepository;
 
-    public CourseServices(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
-    }
+public CourseServices(@Qualifier("courseRepositoryAdapter") CourseRepository courseRepository) {
+    this.courseRepository = courseRepository;
+}
 
     @Override
     public List<Course> findall() {

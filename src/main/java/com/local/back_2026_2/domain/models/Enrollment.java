@@ -20,7 +20,6 @@ import java.time.LocalDate;
 public class Enrollment {
 
     @Id
-    @NotNull
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
