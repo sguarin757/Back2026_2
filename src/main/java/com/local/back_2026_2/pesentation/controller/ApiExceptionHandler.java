@@ -4,6 +4,7 @@ import com.local.back_2026_2.application.Exceptions.BussinesException;
 import com.local.back_2026_2.application.Exceptions.CourseNotFoundException;
 import com.local.back_2026_2.application.Exceptions.EnrollmentNotFoundException;
 import com.local.back_2026_2.application.Exceptions.StudentNotFoundException;
+import com.local.back_2026_2.pesentation.dto.ErrorResponse;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,17 +23,17 @@ public class ApiExceptionHandler {
             CourseNotFoundException.class,
             EnrollmentNotFoundException.class
     })
-    public ResponseEntity<Map<String, Object>> handleNotFound(RuntimeException exception) {
+    public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException exception) {
         return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), null);
     }
 
     @ExceptionHandler(BussinesException.class)
-    public ResponseEntity<Map<String, Object>> handleBusiness(BussinesException exception) {
+    public ResponseEntity<ErrorResponse> handleBusiness(BussinesException exception) {
         return buildResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), null);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new LinkedHashMap<>();
         for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
@@ -40,19 +41,18 @@ public class ApiExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, "La solicitud contiene datos invalidos", errors);
     }
 
-    private ResponseEntity<Map<String, Object>> buildResponse(
+    private ResponseEntity<ErrorResponse> buildResponse(
             HttpStatus status,
             String message,
             Map<String, String> errors
     ) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", status.value());
-        body.put("error", status.getReasonPhrase());
-        body.put("message", message);
-        if (errors != null && !errors.isEmpty()) {
-            body.put("details", errors);
-        }
+        ErrorResponse body = new ErrorResponse(
+                LocalDateTime.now(),
+                status.value(),
+                status.getReasonPhrase(),
+                message,
+                (errors != null && !errors.isEmpty()) ? errors : null
+        );
         return ResponseEntity.status(status).body(body);
     }
 }

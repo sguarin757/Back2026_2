@@ -102,6 +102,29 @@ class EnrollmentServicesTest {
         verify(enrollmentRepository, never()).update(enrollment);
     }
 
+    @Test
+    void deleteByIdShouldFailWhenIdIsInvalid() {
+        assertThrows(BussinesException.class, () -> enrollmentServices.deleteById(0L));
+        verify(enrollmentRepository, never()).existsByStudentId(0L);
+        verify(enrollmentRepository, never()).deleteById(0L);
+    }
+
+    @Test
+    void findByIdShouldFailWhenIdIsInvalid() {
+        assertThrows(BussinesException.class, () -> enrollmentServices.findById(null));
+        verify(enrollmentRepository, never()).findById(null);
+    }
+
+    @Test
+    void updateShouldFailWhenEnrollmentIsInvalid() {
+        Enrollment enrollment = buildEnrollment();
+        enrollment.setCourse(null);
+
+        assertThrows(BussinesException.class, () -> enrollmentServices.update(enrollment));
+        verify(enrollmentRepository, never()).existsByStudentId(enrollment.getId());
+        verify(enrollmentRepository, never()).update(enrollment);
+    }
+
     private Enrollment buildEnrollment() {
         return new Enrollment(
                 1L,

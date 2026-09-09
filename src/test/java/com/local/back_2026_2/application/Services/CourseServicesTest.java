@@ -98,6 +98,29 @@ class CourseServicesTest {
         verify(courseRepository, never()).update(course);
     }
 
+    @Test
+    void deleteByIdShouldFailWhenIdIsInvalid() {
+        assertThrows(BussinesException.class, () -> courseServices.deleteById(0L));
+        verify(courseRepository, never()).existsByStudentId(0L);
+        verify(courseRepository, never()).deleteById(0L);
+    }
+
+    @Test
+    void findByIdShouldFailWhenIdIsInvalid() {
+        assertThrows(BussinesException.class, () -> courseServices.findById(null));
+        verify(courseRepository, never()).findById(null);
+    }
+
+    @Test
+    void updateShouldFailWhenCourseIsInvalid() {
+        Course course = buildCourse();
+        course.setName(" ");
+
+        assertThrows(BussinesException.class, () -> courseServices.update(course));
+        verify(courseRepository, never()).existsByStudentId(course.getId());
+        verify(courseRepository, never()).update(course);
+    }
+
     private Course buildCourse() {
         return new Course(
                 1L,

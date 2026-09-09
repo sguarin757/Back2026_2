@@ -1,9 +1,9 @@
 package com.local.back_2026_2.pesentation.controller;
 
 import com.local.back_2026_2.application.Exceptions.BussinesException;
-import com.local.back_2026_2.application.Exceptions.StudentNotFoundException;
-import com.local.back_2026_2.application.Services.StudentServices;
-import com.local.back_2026_2.domain.models.Student;
+import com.local.back_2026_2.application.Exceptions.CourseNotFoundException;
+import com.local.back_2026_2.application.Services.CourseServices;
+import com.local.back_2026_2.domain.models.Course;
 import com.local.back_2026_2.pesentation.dto.ErrorResponse;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
@@ -19,20 +19,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
-@RequestMapping("/students")
-public class StudentController {
-    private final StudentServices studentServices;
+@RequestMapping("/courses")
+public class CourseController {
+    private final CourseServices courseServices;
 
-    public StudentController(StudentServices studentServices) {
-        this.studentServices = studentServices;
+    public CourseController(CourseServices courseServices) {
+        this.courseServices = courseServices;
     }
 
     @GetMapping
     public ResponseEntity<Object> findAll() {
         try {
-            return ResponseEntity.ok(studentServices.findall());
+            return ResponseEntity.ok(courseServices.findall());
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -41,11 +40,11 @@ public class StudentController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id) {
         try {
-            Optional<Student> student = studentServices.findById(id);
-            if (student.isEmpty()) {
+            Optional<Course> course = courseServices.findById(id);
+            if (course.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.ok(student.get());
+            return ResponseEntity.ok(course.get());
         } catch (BussinesException e) {
             return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
@@ -54,10 +53,10 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody Student student) {
+    public ResponseEntity<Object> create(@Valid @RequestBody Course course) {
         try {
-            Student savedStudent = studentServices.save(student);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedStudent);
+            Course savedCourse = courseServices.save(course);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedCourse);
         } catch (BussinesException e) {
             return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
@@ -66,13 +65,13 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody Student student) {
+    public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody Course course) {
         try {
-            student.setId(id);
-            Student updatedStudent = studentServices.update(student)
-                    .orElseThrow(() -> new IllegalStateException("No se pudo actualizar el estudiante con id " + id));
-            return ResponseEntity.ok(updatedStudent);
-        } catch (StudentNotFoundException e) {
+            course.setId(id);
+            Course updatedCourse = courseServices.update(course)
+                    .orElseThrow(() -> new IllegalStateException("No se pudo actualizar el curso con id " + id));
+            return ResponseEntity.ok(updatedCourse);
+        } catch (CourseNotFoundException e) {
             return buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (BussinesException e) {
             return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -84,9 +83,9 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         try {
-            studentServices.deleteById(id);
+            courseServices.deleteById(id);
             return ResponseEntity.noContent().build();
-        } catch (StudentNotFoundException e) {
+        } catch (CourseNotFoundException e) {
             return buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (BussinesException e) {
             return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
